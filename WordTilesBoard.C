@@ -1,21 +1,28 @@
 
-#include "ScrabbleBoard.h"
+//
+// Part of Alan Wilson's (alan.w.wilson@gmail.com) program
+// for analyzing that game where you make words with tiles.
+//
 
+#include "WordTilesBoard.h"
+
+#include <string.h>
 #include <iomanip>
+#include <algorithm>
 
 using namespace std;
 
 
 //###############################################################################
-// ScrabbleBoard class
+// WordTilesBoard class
 //###############################################################################
 
-const int ScrabbleBoard::fTileFrequency[27] = {
+const int WordTilesBoard::fTileFrequency[27] = {
 //A  B  C  D   E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  _
   9, 2, 2, 4, 12, 2, 3, 2, 9, 1, 1, 4, 2, 6, 8, 2, 1, 6, 4, 6, 4, 2, 2, 1, 2, 1, 2
 };
 
-const int ScrabbleBoard::fScoringMap[15][15] = {
+const int WordTilesBoard::fScoringMap[15][15] = {
   {4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4 },
   {0, 3, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 3, 0 },
   {0, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, 0, 3, 0, 0 },
@@ -33,10 +40,10 @@ const int ScrabbleBoard::fScoringMap[15][15] = {
   {4, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 4 },
 };
  
-ScrabbleBoard::ScrabbleBoard(void) {
+WordTilesBoard::WordTilesBoard(void) {
   for (int iy = 0; iy < 15; ++iy) {
     for (int ix = 0; ix < 15; ++ix) {
-      fBoard[ix][iy] = new ScrabblePosition(ix, iy, this);
+      fBoard[ix][iy] = new WordTilesPosition(ix, iy, this);
       fBoard[ix][iy]->SetMultiplier(fScoringMap[ix][iy]);
     }
   }
@@ -53,7 +60,7 @@ ScrabbleBoard::ScrabbleBoard(void) {
   }
 }
 
-ScrabbleBoard::~ScrabbleBoard() {
+WordTilesBoard::~WordTilesBoard() {
   for (int i = 0; i < 15; ++i) {
     for (int j = 0; j < 15; ++j) {
       delete fBoard[i][j];
@@ -61,7 +68,7 @@ ScrabbleBoard::~ScrabbleBoard() {
   }
 }
 
-void ScrabbleBoard::Print(void) {
+void WordTilesBoard::Print(void) {
   for (int iy = 0; iy < 15; ++iy) {
     cout << " -----------------------------------------------------------\n";
     for (int ix = 0; ix < 15; ++ix) {
@@ -73,7 +80,7 @@ void ScrabbleBoard::Print(void) {
   cout << " -----------------------------------------------------------\n";
 }
 
-void ScrabbleBoard::PrintPool(void) {
+void WordTilesBoard::PrintPool(void) {
   int tiles[27];
   for (int i=0; i<27; ++i) tiles[i] = fTilesLeft[i];
   bool notdone = true;
@@ -96,11 +103,11 @@ void ScrabbleBoard::PrintPool(void) {
   cout << "+---------------------------+\n";
 }
 
-void ScrabbleBoard::Set(int x, int y, char letter, int score) {
+void WordTilesBoard::Set(int x, int y, char letter, int score) {
   fBoard[x][y]->SetTile(letter, score);
 }
 
-void ScrabbleBoard::RemoveTile(char letter) {
+void WordTilesBoard::RemoveTile(char letter) {
   if (isupper(letter)) {
     fTilesLeft[letter - 'A']--;
   } else if (islower(letter)) {
@@ -108,11 +115,11 @@ void ScrabbleBoard::RemoveTile(char letter) {
   }
 }
 
-void ScrabbleBoard::SearchHelper(WordTreeNode *node, const char *pattern, const char *rack, string tiles) {
+void WordTilesBoard::SearchHelper(WordTreeNode *node, const char *pattern, const char *rack, string tiles) {
   //cout << "SearchHelper(" << pattern << ", " << rack << ", " << tiles << ")\n";
   if (*pattern == '\0') {
     if (node->fEnd == true) { // Found a word!
-      ScrabblePlay play;
+      WordTilesPlay play;
       play.Set(fSearchPos, tiles.c_str(), fSearchDir);
       if (play.GetScore() > 0) {
         fPlays.push_back(play);
@@ -158,15 +165,15 @@ void ScrabbleBoard::SearchHelper(WordTreeNode *node, const char *pattern, const 
   
 }
 
-int ScrabbleBoard::Search(string rack, ScrabbleDictionary *dict) {
+int WordTilesBoard::Search(string rack, WordTilesDictionary *dict) {
 
   fPlays.clear();
 
-  fSearchDir = ScrabblePlay::right;
+  fSearchDir = WordTilesPlay::right;
   for (int j = 0; j < 15; ++j) {
     for (int i = 0; i < 15; ++i) {
-      ScrabblePosition *pos = fBoard[i][j];
-      ScrabblePosition *end = pos;
+      WordTilesPosition *pos = fBoard[i][j];
+      WordTilesPosition *end = pos;
       if (! pos->GetLeft() || ! pos->GetLeft()->HasTile()) {
         string pattern;
         bool playable = false;
@@ -192,11 +199,11 @@ int ScrabbleBoard::Search(string rack, ScrabbleDictionary *dict) {
     }
   }
 
-  fSearchDir = ScrabblePlay::down;
+  fSearchDir = WordTilesPlay::down;
   for (int j = 0; j < 15; ++j) {
     for (int i = 0; i < 15; ++i) {
-      ScrabblePosition *pos = fBoard[i][j];
-      ScrabblePosition *end = pos;
+      WordTilesPosition *pos = fBoard[i][j];
+      WordTilesPosition *end = pos;
       if (! pos->GetUp() || ! pos->GetUp()->HasTile()) {
         string pattern;
         bool playable = false;
@@ -226,7 +233,7 @@ int ScrabbleBoard::Search(string rack, ScrabbleDictionary *dict) {
   std::sort(fPlays.begin(), fPlays.end());
   std::reverse(fPlays.begin(), fPlays.end());
 
-  vector<ScrabblePlay>::iterator play_itr=fPlays.begin();
+  vector<WordTilesPlay>::iterator play_itr=fPlays.begin();
   int i=0;
   for (; play_itr != fPlays.end() && i < 25; ++play_itr, ++i) {
     play_itr->Print();

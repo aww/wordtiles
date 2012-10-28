@@ -1,6 +1,12 @@
 
-#include "ScrabbleDictionary.h"
+//
+// Part of Alan Wilson's (alan.w.wilson@gmail.com) program
+// for analyzing that game where you make words with tiles.
+//
 
+#include "WordTilesDictionary.h"
+
+#include <stdio.h>
 #include <iostream>
 
 //###############################################################################
@@ -43,7 +49,7 @@ bool WordTreeNode::Validate(const char *str) {
 }
 
 //###############################################################################
-// ScrabbleDictionary class
+// WordTilesDictionary class
 //###############################################################################
 
 
@@ -60,7 +66,7 @@ void SortString(std::string &str) {
   }
 }
 
-void ScrabbleDictionary::Load(const std::string &str) {
+void WordTilesDictionary::Load(const std::string &str) {
   int length = str.size();
   if (length > MAX_WORD_LENGTH) {
     std::cout << "Can't deal with words longer than " << MAX_WORD_LENGTH << " : " << str << "\n";
@@ -74,7 +80,7 @@ void ScrabbleDictionary::Load(const std::string &str) {
   fTree->Add(str.c_str());
 }
 
-bool ScrabbleDictionary::Validate(const std::string &str) {
+bool WordTilesDictionary::Validate(const std::string &str) {
 //   std::string sorted_str(str);
 //   SortString(sorted_str);
 
@@ -89,7 +95,7 @@ bool ScrabbleDictionary::Validate(const std::string &str) {
   return fTree->Validate(str.c_str());
 }
 
-void ScrabbleDictionary::PrintStats(void) {
+void WordTilesDictionary::PrintStats(void) {
   for (int i=1; i<=MAX_WORD_LENGTH; ++i) {
     printf("%10d words of length %2d\n", fD.at(i).size(), i);
   }

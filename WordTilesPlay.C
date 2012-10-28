@@ -1,22 +1,27 @@
 
-#include "ScrabblePlay.h"
+//
+// Part of Alan Wilson's (alan.w.wilson@gmail.com) program
+// for analyzing that game where you make words with tiles.
+//
+
+#include "WordTilesPlay.h"
 
 #include <iomanip>
 
 using namespace std;
 
 //###############################################################################
-// ScrabblePlay class
+// WordTilesPlay class
 //###############################################################################
 
-ScrabbleDictionary *ScrabblePlay::fDefaultDict = 0;
+WordTilesDictionary *WordTilesPlay::fDefaultDict = 0;
 
-const int ScrabblePlay::fPointMap[26] = {
+const int WordTilesPlay::fPointMap[26] = {
 //A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P   Q  R  S  T  U  V  W  X  Y   Z
   1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10
 };
 
-void ScrabblePlay::Set(ScrabblePosition* pos, const char *tiles, DirOfPlay dir, const std::string &player, ScrabbleDictionary *dict) {
+void WordTilesPlay::Set(WordTilesPosition* pos, const char *tiles, DirOfPlay dir, const std::string &player, WordTilesDictionary *dict) {
   fTiles = tiles;
   fPos = pos;
   fDir = dir;
@@ -26,7 +31,7 @@ void ScrabblePlay::Set(ScrabblePosition* pos, const char *tiles, DirOfPlay dir, 
   CalcScore();
 }
 
-void ScrabblePlay::Print(void) {
+void WordTilesPlay::Print(void) {
   cout << "Scoring " << setw(3) << fScore
        << " with " << setw(15) << fWord
        << " using play " << setw(15) << fTiles
@@ -35,8 +40,8 @@ void ScrabblePlay::Print(void) {
        << "\n";
 }
 
-int ScrabblePlay::Play(void) {
-  ScrabblePosition *pos = fPos;
+int WordTilesPlay::Play(void) {
+  WordTilesPosition *pos = fPos;
   const char *tilepos = fTiles.c_str();
   char tile = *tilepos;
   while (tile != '\0' && pos) {
@@ -52,7 +57,7 @@ int ScrabblePlay::Play(void) {
 }
 
 
-void ScrabblePlay::CalcScore(void) {
+void WordTilesPlay::CalcScore(void) {
 
   int count_from_rack = 0;
   int totaux_score = 0;
@@ -61,7 +66,7 @@ void ScrabblePlay::CalcScore(void) {
   string pri_word("");
   bool valid = true;
 
-  ScrabblePosition *pos = fPos;
+  WordTilesPosition *pos = fPos;
   const char *tilepos = fTiles.c_str();
   char tile = *tilepos;
 
@@ -90,7 +95,7 @@ void ScrabblePlay::CalcScore(void) {
         else if (pos->GetMultiplier() == 2) score *= 3;
       }
 
-      ScrabblePosition *auxpos;
+      WordTilesPosition *auxpos;
       if (fDir == down) {
         auxpos = pos;
         while (auxpos->GetLeft() && auxpos->GetLeft()->HasTile()) {

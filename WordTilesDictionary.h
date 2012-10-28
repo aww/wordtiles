@@ -1,9 +1,16 @@
-#ifndef SCRABBLEDICTIONARY_HEADER
-#define SCRABBLEDICTIONARY_HEADER
+
+//
+// Part of Alan Wilson's (alan.w.wilson@gmail.com) program
+// for analyzing that game where you make words with tiles.
+//
+
+#ifndef WORDTILESDICTIONARY_HEADER
+#define WORDTILESDICTIONARY_HEADER
 
 #include <ctype.h>
 #include <vector>
 #include <map>
+#include <string>
 
 //###############################################################################
 // WordTreeNode class
@@ -25,15 +32,15 @@ public:
 
 
 //###############################################################################
-// ScrabbleDictionary class
+// WordTilesDictionary class
 //###############################################################################
 
 #define MAX_WORD_LENGTH 15
 
-class ScrabbleDictionary {
+class WordTilesDictionary {
 public:
-  ScrabbleDictionary() { fD.resize(MAX_WORD_LENGTH+1); fTree = new WordTreeNode; };
-  ~ScrabbleDictionary() { delete fTree; };
+  WordTilesDictionary() { fD.resize(MAX_WORD_LENGTH+1); fTree = new WordTreeNode; };
+  ~WordTilesDictionary() { delete fTree; };
 
   void Load(const std::string &str);
   void PrintStats(void);
@@ -45,4 +52,4 @@ public:
   
 };
 
-#endif //#ifndef SCRABBLEDICTIONARY_HEADER
+#endif //#ifndef WORDTILESDICTIONARY_HEADER

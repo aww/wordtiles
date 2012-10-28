@@ -1,19 +1,25 @@
-#ifndef SCRABBLEPOSITION_HEADER
-#define SCRABBLEPOSITION_HEADER
+
+//
+// Part of Alan Wilson's (alan.w.wilson@gmail.com) program
+// for analyzing that game where you make words with tiles.
+//
+
+#ifndef WORDTILESPOSITION_HEADER
+#define WORDTILESPOSITION_HEADER
 
 #include <iostream>
 
-class ScrabbleBoard;
+class WordTilesBoard;
 
 //###############################################################################
-// ScrabblePosition class
+// WordTilesPosition class
 //###############################################################################
 
-class ScrabblePosition {
+class WordTilesPosition {
 public:
-  ScrabblePosition(int x=-1, int y=-1, ScrabbleBoard *board = 0) : fX(x), fY(y), fBoard(board)
+  WordTilesPosition(int x=-1, int y=-1, WordTilesBoard *board = 0) : fX(x), fY(y), fBoard(board)
   { fHasTile = false; fLetter = ' '; fScore = 0; fMultiplier = 0; fUp = 0; fDown = 0; fRight = 0; fLeft = 0; };
-  ~ScrabblePosition() {};
+  ~WordTilesPosition() {};
 
   inline int GetX(void) const { return fX; };
   inline int GetY(void) const { return fY; };
@@ -24,18 +30,18 @@ public:
   inline void SetMultiplier(int m) { fMultiplier = m; };
   inline int GetMultiplier(void) const { return fMultiplier; };
 
-  inline ScrabblePosition* GetUp(void)    const { return fUp; };
-  inline ScrabblePosition* GetDown(void)  const { return fDown; };
-  inline ScrabblePosition* GetRight(void) const { return fRight; };
-  inline ScrabblePosition* GetLeft(void)  const { return fLeft; };
+  inline WordTilesPosition* GetUp(void)    const { return fUp; };
+  inline WordTilesPosition* GetDown(void)  const { return fDown; };
+  inline WordTilesPosition* GetRight(void) const { return fRight; };
+  inline WordTilesPosition* GetLeft(void)  const { return fLeft; };
 
   void SetTile(char letter, int score);
   inline void SetChar(char letter) { fLetter = letter; };
 
-  inline void SetUp(ScrabblePosition* p)    { fUp = p; };
-  inline void SetDown(ScrabblePosition* p)  { fDown = p; };
-  inline void SetRight(ScrabblePosition* p) { fRight = p; };
-  inline void SetLeft(ScrabblePosition* p)  { fLeft = p; };
+  inline void SetUp(WordTilesPosition* p)    { fUp = p; };
+  inline void SetDown(WordTilesPosition* p)  { fDown = p; };
+  inline void SetRight(WordTilesPosition* p) { fRight = p; };
+  inline void SetLeft(WordTilesPosition* p)  { fLeft = p; };
   
   inline void Print (void) { std::cout << ' ' << fLetter << ' '; };
 
@@ -48,20 +54,20 @@ public:
             || (GetUp()    && GetUp()->HasTile())
             || (GetDown()  && GetDown()->HasTile()))); };
   
-  //  void Search(string rack, ScrabbleDictionary &dict);
+  //  void Search(string rack, WordTilesDictionary &dict);
   
 private:
-  ScrabblePosition *fUp;
-  ScrabblePosition *fDown;
-  ScrabblePosition *fRight;
-  ScrabblePosition *fLeft;
+  WordTilesPosition *fUp;
+  WordTilesPosition *fDown;
+  WordTilesPosition *fRight;
+  WordTilesPosition *fLeft;
   bool fHasTile;
   char fLetter;
   int fScore;
   int fMultiplier;
   int fX;
   int fY;
-  ScrabbleBoard *fBoard;
+  WordTilesBoard *fBoard;
 };
 
-#endif //#ifndef SCRABBLEPOSITION_HEADER
+#endif //#ifndef WORDTILESPOSITION_HEADER

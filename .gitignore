@@ -1,0 +1,5 @@
+*.o
+wordtiles
+search
+.depend
+.depend.bak
