@@ -69,15 +69,21 @@ WordTilesBoard::~WordTilesBoard() {
 }
 
 void WordTilesBoard::Print(void) {
+  cout << "   ";
+  for (int ix = 0; ix < 15; ++ix) {
+    cout << "  " << setw(2) << ix;
+  }
+  cout << "\n";
   for (int iy = 0; iy < 15; ++iy) {
-    cout << " -----------------------------------------------------------\n";
+    cout << "    -----------------------------------------------------------\n";
+    cout << setw(2) << iy << " ";
     for (int ix = 0; ix < 15; ++ix) {
       cout << "|";
       fBoard[ix][iy]->Print();
     }
     cout << "|\n";
   }
-  cout << " -----------------------------------------------------------\n";
+  cout << "    -----------------------------------------------------------\n";
 }
 
 void WordTilesBoard::PrintPool(void) {
