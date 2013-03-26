@@ -10,6 +10,12 @@
 #include <iostream>
 #include <fstream>
 
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+
+#include <ncurses.h>
+
 #include "WordTilesBoard.h"
 
 using namespace std;
@@ -50,7 +56,7 @@ int main (int argc, const char *argv[]) {
     word_count++;
   }
   cout << "Read in " << word_count << " words.\n";
-  //dict->PrintStats();
+  dict->PrintStats();
 
   WordTilesPlay::SetDefaultDict(dict);
 
@@ -59,55 +65,103 @@ int main (int argc, const char *argv[]) {
 
   ifstream input(argv[1], ifstream::in);
 
+  string line;
   string command, name, tiles;
   int x, y;
   char dir;
   WordTilesPlay play;
-  int i=0;
+  int move_count=0;
   while (input.good()) {
-    input >> command;
-    if (name == "add") {
+    // This gets a line and splits it into tokens via spaces
+    getline(input, line);
+    istringstream iss(line);
+    std::vector<std::string> tokens;
+    copy(istream_iterator<string>(iss),
+         istream_iterator<string>(),
+         back_inserter<std::vector<std::string> >(tokens));
 
-      input >> word;
-      if (! input.good()) break;
-      cout << "\n";
-      cout << "Adding " << word << " to the dictionary.\n";
-      dict->Load(word);
+    for (int i=0; i<tokens.size(); i++) {
+      std::cout << tokens[i] << " ";
+    }
+    std::cout << "\n";
+
+    if (tokens.size() == 0 || tokens[0].size() == 0) continue;
+
+    if (tokens[0][0] == '#') continue;
+
+    command = tokens[0];
+    if (command == "add") {
+      if (tokens.size() < 2) {
+        std::cout << "ERROR: insufficient tokens after 'add': " << line << "\n";
+      } else {
+        word = tokens[1];
+        cout << "\n";
+        cout << "Adding " << word << " to the dictionary.\n";
+        dict->Load(word);
+      }
 
     } else if (command == "has") {
-
-      input >> name >> tiles;
-      if (! input.good()) break;
-      cout << "\n";
-      cout << name << " has " << tiles << ".\n";
-      for (std::string::iterator itr = tiles.begin(); itr != tiles.end(); ++itr) {
-        if (isalpha(*itr)) *itr = toupper(*itr);
-        else               *itr = '*';
+      if (tokens.size() < 3) {
+        std::cout << "ERROR: insufficient tokens after 'has': " << line << "\n";
+      } else {
+        name = tokens[1];
+        tiles = tokens[2];
+        cout << "\n";
+        cout << name << " has " << tiles << ".\n";
+        for (std::string::iterator itr = tiles.begin(); itr != tiles.end(); ++itr) {
+          if (isalpha(*itr)) *itr = toupper(*itr);
+          else               *itr = '*';
+        }
+        board->Search(tiles.c_str(), dict);
       }
-      board->Search(tiles.c_str(), dict);
 
     } else if (command == "play") {
-
-      input >> name >> x >> y >> dir >> tiles;
-      if (! input.good()) break;
-      cout << "\n";
-      cout << name << " plays " << tiles << (dir == '>' ? " right" : " down")
-           << " from (" << x << "," << y << ").\n";
-      play.SetVerbose();
-      play.Set(board->GetXY(x,y), tiles.c_str(), dir == '>' ? WordTilesPlay::right : WordTilesPlay::down, name);
-      play.Play();
-      plays.push_back(play);
-      i++;
+      if (tokens.size() < 6) {
+        std::cout << "ERROR: insufficient tokens after 'play': " << line << "\n";
+      } else {
+        name = tokens[1];
+        x = atoi(tokens[2].c_str());
+        y = atoi(tokens[3].c_str());
+        dir = tokens[4][0];
+        tiles = tokens[5];
+        cout << "\n";
+        cout << name << " plays " << tiles << (dir == '>' ? " right" : " down")
+             << " from (" << x << "," << y << ").\n";
+        play.SetVerbose();
+        play.Set(board->GetXY(x,y), tiles.c_str(), dir == '>' ? WordTilesPlay::right : WordTilesPlay::down, name);
+        play.Play();
+        plays.push_back(play);
+        move_count++;
+      }
 
     } else if (command == "pass") {
+      if (tokens.size() < 2) {
+        std::cout << "ERROR: insufficient tokens after 'pass': " << line << "\n";
+      } else {
+        name = tokens[1];
+        cout << "\n";
+        cout << name << " passes (NOT IMPLEMENTED!).\n";
+        //
+        // FILL IN
+        //
+      }
 
-      input >> name;
-      if (! input.good()) break;
-      cout << "\n";
-      cout << name << " passes (NOT IMPLEMENTED!).\n";
-      //
-      // FILL IN
-      //
+    } else if (command == "contests") {
+      if (tokens.size() < 3) {
+        std::cout << "ERROR: insufficient tokens after 'contests': " << line << "\n";
+      } else {
+        name = tokens[1];
+        std::string status(tokens[2]);
+        if (status != "succeeded" && status != "failed") {
+          std::cout << "ERROR: result of contests must be 'succeeded' or 'failed': " << line << "\n";
+        } else {
+          cout << "\n";
+          cout << name << " contests (NOT IMPLEMENTED!).\n";
+          //
+          // FILL IN
+          //
+        }
+      }
 
     } else {
       cout << "ERROR: " << command << " is an unrecognized command.\n";
@@ -115,6 +169,8 @@ int main (int argc, const char *argv[]) {
   }
 
   cout << "\n";
+
+  //initscr();
 
   std::map<string, int> total_score;
   for (std::vector<WordTilesPlay>::iterator itr = plays.begin(); itr != plays.end(); ++itr) {
@@ -158,6 +214,9 @@ int main (int argc, const char *argv[]) {
   
   delete dict;
   delete board;
+
+  //getch();
+  //endwin();
   
   return 0;
 }
