@@ -24,11 +24,6 @@ cleanexe:
 search: search.C
 	c++ search.C -o search
 
-curses_example:
-	gcc -o Curses_Examples/curses_example  Curses_Examples/curses_example.c -lncurses
-	gcc -o Curses_Examples/curses_example2 Curses_Examples/curses_example2.c -lncurses
-	gcc -o Curses_Examples/curses_example3 Curses_Examples/curses_example3.c -lncurses
-
 .C.o:
 	c++ -c $(GCCOPT) $<
 
