@@ -39,6 +39,6 @@ The file can also have
 
     has <name> <rack>
 
-where <rack> is a string of letters and . or _ for blank tiles.  Wherever this is given the top plays for this player at this point in the game will be computed and displayed (even if out-of-turn).
+where rack is a string of letters and . or _ for blank tiles.  Wherever this is given the top plays for this player at this point in the game will be computed and displayed (even if out-of-turn).
 
 There are also a couple possibly entries that are not yet implemented such as 'contests' and 'pass'.
