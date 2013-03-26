@@ -1,0 +1,59 @@
+play Mom      7  7  > SOP
+play Alan     8  6  > NO
+
+play Mom      9  4  v GO..Y
+play Alan     9  4  > .EN
+
+play Mom     11  1  v FER.
+play Alan    10  4  v .H
+
+play Mom     10  2  > V.ST
+play Alan    14  0  v CLAD
+
+play Mom      9  8  > .ET
+play Alan     7  7  v .TRIKER
+
+play Mom     10  8  v .WE
+play Alan    11 10  v DUI
+
+play Mom      9 12  > Qu.N
+play Alan    10 10  > ..GE
+
+play Mom      5  9  > JA. 
+play Alan    11  1  > .OU.
+
+play Mom      3 14  > MELDS
+has  Alan     ZIPEAUV
+play Alan     4  8  v ZAP
+
+play Mom      3 11  v FAR.
+has  Alan     IEUVNTE
+play Alan    13  8  v EV.NT
+
+play Mom      1 12  > GR.IN
+has  Alan     IEUMAYT
+play Alan    14  6  v YUM
+
+play Mom     12  6  > WA.
+has  Alan     IATEAOA
+play Alan    14 12  v EAT
+
+play Mom     12  5  > OH
+has  Alan     IOAALCE
+play Alan     9 12  v .I
+
+play Mom      1  9  v BIL.E
+has  Alan     OAALCEE
+play Alan     0  7  v COAL
+
+play Mom      2  8  > BI.
+has  Alan     EAEDNIS
+play Alan     0 14  > AD
+
+play Mom      3  5  v TAX.
+has  Alan     NIEESOU
+play Alan     1  5  > OU.SEEN
+
+play Mom      4  1  v IROn.
+has  Alan     I
+play Alan     7 11  > .I

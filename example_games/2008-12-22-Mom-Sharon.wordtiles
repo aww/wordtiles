@@ -1,0 +1,57 @@
+play Sharon  6  7   >  THIN
+play Kathy   6  5   v  NO.
+has  Alan   EXTEEAU
+play Alan    9  7   v  .EXT
+
+play Sharon  6  7   >  ....KInG
+play Kathy   9 10   >  .UBE
+has  Alan   SO_UAEE
+play Alan    6  7   >  ........S
+
+play Sharon 12  9   v  H.AVY
+play Kathy  10  4   v  SIN.
+has  Alan   AOUAEE_
+play Alan    8  9   >  O.
+
+play Sharon  9 13   >  WAV.
+play Kathy   9  5   >  Q.
+has  Alan   LAUAEE_
+play Alan    3  5   >  LEA.
+
+play Sharon  3  3   v  FI.ING
+play Kathy  12 11   >  .DZ
+has  Alan   DRJUAE_
+play Alan   14 10   v  A.URE
+
+play Sharon  6 14   >  TOTE
+play Kathy   0  7   >  MUO.
+has  Alan   TECTDJ_
+play Alan   14  4   v  JET.
+
+play Sharon  7  9   >  B..
+play Kathy   5 13   >  CAN
+has  Alan   EIYTCD_
+play Alan    0  7   v  .ICE
+
+play Sharon  7  9   v  .OP
+play Kathy   3  8   >  .ATE
+has  Alan   LRETDY_
+play Alan    6 14   >  ....D
+
+play Sharon  4  7   v  S.GE
+play Kathy   1 11   >  RAI.E
+has  Alan   OERTLY_
+play Alan    2 10   v  L.YER
+
+play Sharon  0 14   >  DO.M
+play Kathy   0  3   >  WOL.
+has  Alan   RPFATO_
+play Alan    0  0   v  PRO.
+
+play Sharon 12  4   v  RUI.
+play Kathy   0  3   >  ....ED
+has  Alan   AFT_
+play Alan    0  1   >  .AFTs
+
+has  Sharon  RI
+has  Kathy   AN
